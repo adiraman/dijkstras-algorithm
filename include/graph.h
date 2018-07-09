@@ -6,10 +6,10 @@
 #include <string>
 #include <vector>
 
-class graph {
-public:
-    graph() {};
-    virtual ~graph() {};
+class graph
+{
+  public:
+    virtual ~graph() = default;
 
     virtual void addVertex(int v) = 0;
     virtual void removeVertex(int v) = 0;
@@ -18,8 +18,8 @@ public:
     virtual int countVertices() = 0;
     virtual int countEdges() = 0;
     virtual bool writeDot(std::string filename) = 0;
-    virtual std::map<int, std::set<std::pair<int, int>>> getAdjacencyList() const = 0;
-
+    virtual std::map<int, std::set<std::pair<int, int>>>
+    getAdjacencyList() const = 0;
 };
 
 #endif

@@ -24,8 +24,9 @@
  * (4) Helper functions to get a list of edges.
  */
 
-class directed_weighted_graph : public graph {
-public:
+class directed_weighted_graph : public graph
+{
+  public:
     directed_weighted_graph() = default;
 
     directed_weighted_graph(int vertices);
@@ -50,11 +51,13 @@ public:
 
     std::vector<int> getVertices() const;
 
-    virtual std::map<int, std::set<std::pair<int, int>>> getAdjacencyList() const override;
+    virtual std::map<int, std::set<std::pair<int, int>>>
+    getAdjacencyList() const override;
 
-    friend std::ostream& operator<<(std::ostream& oss, const directed_weighted_graph& graph);
+    friend std::ostream &operator<<(std::ostream &oss,
+                                    const directed_weighted_graph &graph);
 
-private:
+  private:
     // pair of <vertex, edgeweight>
     std::map<int, std::set<std::pair<int, int>>> m_adjList;
 };

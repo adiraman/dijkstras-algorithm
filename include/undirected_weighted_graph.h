@@ -24,8 +24,9 @@
  * (4) Helper functions to get a list of edges.
  */
 
-class undirected_weighted_graph : public graph {
-public:
+class undirected_weighted_graph : public graph
+{
+  public:
     undirected_weighted_graph() = default;
 
     undirected_weighted_graph(int vertices);
@@ -52,9 +53,9 @@ public:
 
     virtual std::map<int, std::set<std::pair<int, int>>> getAdjacencyList() const override;
 
-    friend std::ostream& operator<<(std::ostream& oss, const undirected_weighted_graph& graph);
+    friend std::ostream &operator<<(std::ostream &oss, const undirected_weighted_graph &graph);
 
-private:
+  private:
     std::map<int, std::set<std::pair<int, int>>> m_adjList;
 };
 

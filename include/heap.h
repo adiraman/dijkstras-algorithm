@@ -13,12 +13,13 @@
  * comparator, or a custom implementation of `less than` operator.
  */
 template <class T, class Compare = std::greater<T>>
-class heap {
-public:
+class heap
+{
+  public:
     heap() = default;
-    heap(const std::vector<T>& elems, const Compare& comp);
-    heap(const T elems[], int len, const Compare& comp);
-    heap(const std::vector<T>& elems);
+    heap(const std::vector<T> &elems, const Compare &comp);
+    heap(const T elems[], int len, const Compare &comp);
+    heap(const std::vector<T> &elems);
     heap(const T elems[], int len);
 
     // Basic Operations interface :-
@@ -64,66 +65,66 @@ public:
     const_iterator end() const { return m_heap.end(); }
     const_iterator cend() const { return end(); }
 
-private:
+  private:
     std::vector<T> m_heap;
     Compare m_comp;
 
     // convenience functions to get access to the child/parent of a
     // given node index
-    int getLeftChildIndex(const int& parentIndex) const;
-    int getRightChildIndex(const int& parentIndex) const;
-    int getParentIndex(const int& childIndex) const;
+    int getLeftChildIndex(const int &parentIndex) const;
+    int getRightChildIndex(const int &parentIndex) const;
+    int getParentIndex(const int &childIndex) const;
 
-    bool hasLeftChild(const int& index) const;
-    bool hasRightChild(const int& index) const;
-    bool hasParent(const int& index) const;
+    bool hasLeftChild(const int &index) const;
+    bool hasRightChild(const int &index) const;
+    bool hasParent(const int &index) const;
 
-    T leftChild(const int& index) const;
-    T rightChild(const int& index) const;
-    T parent(const int& index) const;
+    T leftChild(const int &index) const;
+    T rightChild(const int &index) const;
+    T parent(const int &index) const;
 
     // Helper functions that govern the operation of
     // the data container
     void make_heap();
     void bubble_up(int index);
     void bubble_down(int index);
-    int getElementIndex(const T& elem) const;
+    int getElementIndex(const T &elem) const;
 };
 
 template <class T, class Compare>
-heap<T, Compare>::heap(const std::vector<T>& elems, const Compare& comp)
-    : m_heap(elems)
-    , m_comp(comp)
+heap<T, Compare>::heap(const std::vector<T> &elems, const Compare &comp)
+    : m_heap(elems), m_comp(comp)
 {
     make_heap();
 }
 
 template <class T, class Compare>
-heap<T, Compare>::heap(const T elems[], int len, const Compare& comp)
+heap<T, Compare>::heap(const T elems[], int len, const Compare &comp)
     : m_comp(comp)
 {
-    for (int i = 0; i < len; ++i) {
+    for (int i = 0; i < len; ++i)
+    {
         m_heap.emplace_back(elems[i]);
     }
     make_heap();
 }
 
 template <class T, class Compare>
-heap<T, Compare>::heap(const std::vector<T>& elems)
-	: m_heap(elems)
-	, m_comp(Compare())
+heap<T, Compare>::heap(const std::vector<T> &elems)
+    : m_heap(elems), m_comp(Compare())
 {
-	make_heap();
+    make_heap();
 }
 
 template <class T, class Compare>
 heap<T, Compare>::heap(const T elems[], int len)
-	: m_comp(Compare())
+    : m_comp(Compare())
 {
-	for (int i = 0; i < len; ++i) {
-		m_heap.emplace_back(elems[i]);
-	}
-	make_heap();
+    for (int i = 0; i < len; ++i)
+    {
+        m_heap.emplace_back(elems[i]);
+    }
+    make_heap();
 }
 
 template <class T, class Compare>
@@ -147,7 +148,8 @@ void heap<T, Compare>::clear() noexcept
 template <class T, class Compare>
 T heap<T, Compare>::pop()
 {
-    if (m_heap.empty()) {
+    if (m_heap.empty())
+    {
         throw std::logic_error("Popping an empty heap");
     }
     // extract the root
@@ -181,7 +183,8 @@ template <class T, class Compare>
 void heap<T, Compare>::erase(T elem)
 {
     int index = getElementIndex(elem);
-    if (index == -1) {
+    if (index == -1)
+    {
         return; // if element is not found
     }
 
@@ -190,19 +193,22 @@ void heap<T, Compare>::erase(T elem)
     m_heap.pop_back();
 
     // bubble down if this is the root node
-    if (!hasParent(index)) {
+    if (!hasParent(index))
+    {
         bubble_down(index);
         return;
     }
     // bubble up if this is a leaf node
-    if (!hasLeftChild(index)) {
+    if (!hasLeftChild(index))
+    {
         bubble_up(index);
         return;
     }
     // for other nodes in the interior :-
 
     // 1. Bubble up if its parent is greater
-    if (m_comp(parent(index), m_heap[index])) {
+    if (m_comp(parent(index), m_heap[index]))
+    {
         bubble_up(index);
     }
 
@@ -210,7 +216,8 @@ void heap<T, Compare>::erase(T elem)
     auto left = leftChild(index);
     auto right = rightChild(index);
     int smallerChildIndex = m_comp(left, right) ? getRightChildIndex(index) : getLeftChildIndex(index);
-    if (m_comp(m_heap[index], m_heap[smallerChildIndex])) {
+    if (m_comp(m_heap[index], m_heap[smallerChildIndex]))
+    {
         bubble_down(smallerChildIndex);
     }
 
@@ -218,7 +225,7 @@ void heap<T, Compare>::erase(T elem)
 }
 
 template <class T, class Compare>
-int heap<T, Compare>::getElementIndex(const T& elem) const
+int heap<T, Compare>::getElementIndex(const T &elem) const
 {
     //  returns -1 if element is not found in the heap, else
     //  returns the very first element index that it finds
@@ -227,57 +234,57 @@ int heap<T, Compare>::getElementIndex(const T& elem) const
 }
 
 template <class T, class Compare>
-int heap<T, Compare>::getLeftChildIndex(const int& parentIndex) const
+int heap<T, Compare>::getLeftChildIndex(const int &parentIndex) const
 {
     return (parentIndex << 1) + 1;
 }
 
 template <class T, class Compare>
-int heap<T, Compare>::getRightChildIndex(const int& parentIndex) const
+int heap<T, Compare>::getRightChildIndex(const int &parentIndex) const
 {
     return (parentIndex << 1) + 2;
 }
 
 template <class T, class Compare>
-int heap<T, Compare>::getParentIndex(const int& childIndex) const
+int heap<T, Compare>::getParentIndex(const int &childIndex) const
 {
     return ((childIndex - 1) >> 1);
 }
 
 template <class T, class Compare>
-bool heap<T, Compare>::hasLeftChild(const int& index) const
+bool heap<T, Compare>::hasLeftChild(const int &index) const
 {
     int n = m_heap.size();
     return (getLeftChildIndex(index) < n);
 }
 
 template <class T, class Compare>
-bool heap<T, Compare>::hasRightChild(const int& index) const
+bool heap<T, Compare>::hasRightChild(const int &index) const
 {
     int n = m_heap.size();
     return (getRightChildIndex(index) < n);
 }
 
 template <class T, class Compare>
-bool heap<T, Compare>::hasParent(const int& index) const
+bool heap<T, Compare>::hasParent(const int &index) const
 {
     return (getParentIndex(index) >= 0);
 }
 
 template <class T, class Compare>
-T heap<T, Compare>::leftChild(const int& index) const
+T heap<T, Compare>::leftChild(const int &index) const
 {
     return m_heap[getLeftChildIndex(index)];
 }
 
 template <class T, class Compare>
-T heap<T, Compare>::rightChild(const int& index) const
+T heap<T, Compare>::rightChild(const int &index) const
 {
     return m_heap[getRightChildIndex(index)];
 }
 
 template <class T, class Compare>
-T heap<T, Compare>::parent(const int& index) const
+T heap<T, Compare>::parent(const int &index) const
 {
     return m_heap[getParentIndex(index)];
 }
@@ -286,13 +293,15 @@ template <class T, class Compare>
 void heap<T, Compare>::bubble_up(int index)
 {
     // base case, bubbled up to root.
-    if (!hasParent(index)) {
+    if (!hasParent(index))
+    {
         return;
     }
     // check if the current node and its parent violate the
     // heap property
     int parentIndex = getParentIndex(index);
-    if (m_comp(parent(index), m_heap[index])) {
+    if (m_comp(parent(index), m_heap[index]))
+    {
         // swap the two
         std::iter_swap(m_heap.begin() + parentIndex, m_heap.begin() + index);
 
@@ -306,23 +315,27 @@ template <class T, class Compare>
 void heap<T, Compare>::bubble_down(int index)
 {
     // base case, bubbled down to leaf (no children)
-    if (!hasLeftChild(index) && !hasRightChild(index)) {
+    if (!hasLeftChild(index) && !hasRightChild(index))
+    {
         return;
     }
 
     // Find the smaller of the 2 children
     int smallerChildIndex = 0;
-    if (hasLeftChild(index)) {
+    if (hasLeftChild(index))
+    {
         // if it has only left child, the smaller child index will
         // be set accordingly
         smallerChildIndex = getLeftChildIndex(index);
-        if (hasRightChild(index) && m_comp(leftChild(index), rightChild(index))) {
+        if (hasRightChild(index) && m_comp(leftChild(index), rightChild(index)))
+        {
             smallerChildIndex = getRightChildIndex(index);
         }
     }
 
     // if node is greater than its smaller child, swap
-    if (m_comp(m_heap[index], m_heap[smallerChildIndex])) {
+    if (m_comp(m_heap[index], m_heap[smallerChildIndex]))
+    {
         std::iter_swap(m_heap.begin() + index, m_heap.begin() + smallerChildIndex);
         bubble_down(smallerChildIndex);
     }
@@ -332,7 +345,8 @@ void heap<T, Compare>::bubble_down(int index)
 template <class T, class Compare>
 void heap<T, Compare>::make_heap()
 {
-    for (int i = m_heap.size() - 1; i >= 0; --i) {
+    for (int i = m_heap.size() - 1; i >= 0; --i)
+    {
         bubble_down(i);
     }
     return;

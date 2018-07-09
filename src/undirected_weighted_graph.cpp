@@ -2,7 +2,8 @@
 
 undirected_weighted_graph::undirected_weighted_graph(int vertices)
 {
-    for (int i = 0; i < vertices; ++i) {
+    for (int i = 0; i < vertices; ++i)
+    {
         m_adjList[i] = std::set<std::pair<int, int>>();
     }
 }
@@ -11,13 +12,15 @@ void undirected_weighted_graph::addVertex(int vertex)
 {
     // If the list is empty no need to check for the vertex, simply
     // add it to the list.
-    if (m_adjList.empty()) {
+    if (m_adjList.empty())
+    {
         m_adjList.emplace(vertex, std::set<std::pair<int, int>>());
         return;
     }
     // check to see if the vertex is already in the adjacency list.
     // If not, add it to the list.
-    if (m_adjList.find(vertex) == m_adjList.end()) {
+    if (m_adjList.find(vertex) == m_adjList.end())
+    {
         m_adjList.emplace(vertex, std::set<std::pair<int, int>>());
     }
     return;
@@ -29,9 +32,12 @@ void undirected_weighted_graph::removeVertex(int vertex)
     m_adjList.erase(vertex);
 
     // remove all entries connected to the removed vertex
-    for (auto i : m_adjList) {
-        for (auto j : i.second) {
-            if (j.first == vertex) {
+    for (auto i : m_adjList)
+    {
+        for (auto j : i.second)
+        {
+            if (j.first == vertex)
+            {
                 i.second.erase(j);
             }
         }
@@ -68,14 +74,19 @@ void undirected_weighted_graph::removeEdge(int source, int dest)
     int end = source < dest ? dest : source;
 
     // remove the connections between source and destination
-    if (m_adjList.find(start) != m_adjList.end()) {
-        for (auto d : m_adjList[start]) {
-            if (d.first == end) {
+    if (m_adjList.find(start) != m_adjList.end())
+    {
+        for (auto d : m_adjList[start])
+        {
+            if (d.first == end)
+            {
                 m_adjList[start].erase(d);
             }
         }
-        for (auto d : m_adjList[end]) {
-            if (d.first == start) {
+        for (auto d : m_adjList[end])
+        {
+            if (d.first == start)
+            {
                 m_adjList[end].erase(d);
             }
         }
@@ -92,7 +103,8 @@ int undirected_weighted_graph::countEdges()
 {
     // iterate through the map and sum up the set sizes.
     int edges = 0;
-    for (auto i : m_adjList) {
+    for (auto i : m_adjList)
+    {
         edges += i.second.size();
     }
     return edges / 2;
@@ -103,11 +115,14 @@ bool undirected_weighted_graph::writeDot(std::string filename)
     std::ofstream file;
     file.open(filename, std::ios::out);
 
-    if (file.is_open()) {
+    if (file.is_open())
+    {
         file << "strict graph {" << std::endl;
 
-        for (auto i : m_adjList) {
-            for (auto j : i.second) {
+        for (auto i : m_adjList)
+        {
+            for (auto j : i.second)
+            {
                 file << "  " << i.first << " -- " << j.first << ";" << std::endl;
             }
         }
@@ -122,8 +137,10 @@ bool undirected_weighted_graph::writeDot(std::string filename)
 std::vector<std::pair<int, int>> undirected_weighted_graph::getEdges() const
 {
     std::vector<std::pair<int, int>> edges;
-    for (auto it : m_adjList) {
-        for (auto di : it.second) {
+    for (auto it : m_adjList)
+    {
+        for (auto di : it.second)
+        {
             edges.push_back(std::make_pair(it.first, di.first));
         }
     }
@@ -133,7 +150,8 @@ std::vector<std::pair<int, int>> undirected_weighted_graph::getEdges() const
 std::vector<int> undirected_weighted_graph::getVertices() const
 {
     std::vector<int> vertices;
-    for (auto it : m_adjList) {
+    for (auto it : m_adjList)
+    {
         vertices.push_back(it.first);
     }
     return vertices;
@@ -144,11 +162,13 @@ std::map<int, std::set<std::pair<int, int>>> undirected_weighted_graph::getAdjac
     return m_adjList;
 }
 
-std::ostream& operator<<(std::ostream& oss, const undirected_weighted_graph& graph)
+std::ostream &operator<<(std::ostream &oss, const undirected_weighted_graph &graph)
 {
-    for (auto it : graph.m_adjList) {
+    for (auto it : graph.m_adjList)
+    {
         oss << it.first << " :: ";
-        for (auto di : it.second) {
+        for (auto di : it.second)
+        {
             oss << " => " << di.first << " (weight = " << di.second << ")";
         }
         oss << std::endl;

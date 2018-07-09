@@ -8,15 +8,16 @@
 /*
  * Implementation of the Dijkstra's shortest path algorithm
  */
-class shortestPath {
-public:
-    shortestPath(const graph& g);
+class shortestPath
+{
+  public:
+    shortestPath(const graph &g);
     shortestPath() = delete;
     ~shortestPath() = default;
 
-    std::vector<int> compute(const int& source) const;
+    std::vector<int> compute(const int &source) const;
 
-private:
+  private:
     std::map<int, std::set<std::pair<int, int>>> m_graph;
 };
 
